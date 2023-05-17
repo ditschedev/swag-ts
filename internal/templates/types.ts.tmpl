@@ -1,0 +1,13 @@
+<% define "types" %>
+
+// Generated on <% .Now %> using docgen
+
+<% range .Models %>
+export interface <% .Name %> {
+<% range .Fields %>
+  <% .Name %><% if .Optional %>?<% end %>: <% .Type %><% if .Nullable %> | null<% end %>;
+<% end %>
+}
+<% end %>
+
+<% end %>
