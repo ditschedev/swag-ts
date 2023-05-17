@@ -19,7 +19,10 @@ type Field struct {
 
 type Model struct {
 	Name   string
+	Type   string
+	IsEnum bool
 	Fields []Field
+	Values []interface{}
 }
 
 type TypesPlaceholder struct {
@@ -43,14 +46,24 @@ func generateTypes(doc *openapi3.T, outputPath string) {
 	for name, ref := range doc.Components.Schemas {
 		schema := ref.Value
 
-		if schema == nil || schema.Type != "object" {
-			log.Printf("Schema %s is not an object, skipping...\n", name)
+		if schema == nil || (schema.Type != "object" && schema.Enum == nil) {
+
+			log.Printf("Schema %s is not an object or enum, skipping...\n", name)
 			continue
 		}
 
 		model := Model{
 			Name:   name,
+			Type:   schema.Type,
+			IsEnum: false,
 			Fields: make([]Field, 0),
+		}
+
+		if schema.Enum != nil {
+			model.IsEnum = true
+			model.Values = schema.Enum
+			models = append(models, model)
+			continue
 		}
 
 		var requiredFields []string
@@ -91,6 +104,11 @@ func generateTypes(doc *openapi3.T, outputPath string) {
 					Nullable: field.Value.Nullable,
 					Optional: true,
 				}
+
+				if field.Ref != "" {
+					f.Type = parseRefName(field.Ref)
+				}
+
 			}
 
 			if requiredFields != nil {
@@ -103,6 +121,7 @@ func generateTypes(doc *openapi3.T, outputPath string) {
 			}
 
 			model.Fields = append(model.Fields, f)
+
 		}
 
 		models = append(models, model)

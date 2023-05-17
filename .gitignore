@@ -1,6 +1,9 @@
 .idea
 .bin
+gen
 
 .DS_Store
 .vs
 .vscode
+
+test.json
