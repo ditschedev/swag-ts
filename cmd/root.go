@@ -26,6 +26,7 @@ var rootCmd = &cobra.Command{
 
 		if specPath != "" {
 			parser.GenerateTypescriptTypes(specPath, output)
+			return
 		}
 
 		_ = cmd.Help()
