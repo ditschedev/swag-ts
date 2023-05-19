@@ -9,6 +9,7 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"sort"
 	"time"
 )
 
@@ -144,6 +145,11 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 			model.Fields = append(model.Fields, f)
 
 		}
+
+		// sort fields by name
+		sort.Slice(model.Fields, func(i, j int) bool {
+			return model.Fields[i].Name < model.Fields[j].Name
+		})
 
 		models = append(models, model)
 	}
