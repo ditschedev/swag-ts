@@ -8,6 +8,7 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -68,4 +69,9 @@ func (g *generator) GenerateTypes(outputPath string) error {
 	}
 
 	return nil
+}
+
+func parseRefName(input string) string {
+	segments := strings.Split(input, "/")
+	return segments[len(segments)-1]
 }

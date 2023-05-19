@@ -8,7 +8,6 @@ import (
 	"html/template"
 	"log"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -112,8 +111,6 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 				} else {
 					f.Type = swaggerTypeToTypescriptType[field.Value.Items.Value.Type] + "[]"
 				}
-
-				break
 			case "object":
 				f = Field{
 					Name:     fieldName,
@@ -121,7 +118,6 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 					Nullable: field.Value.Nullable,
 					Optional: true,
 				}
-				break
 			default:
 				f = Field{
 					Name:     fieldName,
@@ -136,12 +132,10 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 
 			}
 
-			if requiredFields != nil {
-				for _, requiredField := range requiredFields {
-					if requiredField == fieldName {
-						f.Optional = false
-						break
-					}
+			for _, requiredField := range requiredFields {
+				if requiredField == fieldName {
+					f.Optional = false
+					break
 				}
 			}
 
@@ -180,9 +174,4 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 	}
 
 	return nil
-}
-
-func parseRefName(input string) string {
-	segments := strings.Split(input, "/")
-	return segments[len(segments)-1]
 }
