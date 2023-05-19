@@ -154,6 +154,10 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 		models = append(models, model)
 	}
 
+	sort.Slice(models, func(i, j int) bool {
+		return models[i].Name < models[j].Name
+	})
+
 	typesPlaceholder := TypesPlaceholder{
 		Models:  models,
 		Now:     now.Format(time.RFC3339),
