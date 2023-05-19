@@ -8,6 +8,7 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -59,9 +60,16 @@ func NewGenerator(specPath string, t Type) Generator {
 }
 
 func (g *generator) GenerateTypes(outputPath string) error {
-
 	g.outputPath = outputPath
 	g.start = time.Now()
+
+	// extract directory from output path and create it if not exists
+	dir := filepath.Dir(outputPath)
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+			log.Fatalf("Failed to create output directory: %s", err)
+		}
+	}
 
 	switch g.t {
 	case TypeScript:

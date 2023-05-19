@@ -2,6 +2,7 @@ package generator
 
 import (
 	"fmt"
+	"github.com/ditschedev/swag-ts/internal/config"
 	"github.com/ditschedev/swag-ts/internal/templates"
 	"github.com/fatih/color"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -50,8 +51,9 @@ type Model struct {
 }
 
 type TypesPlaceholder struct {
-	Models []Model
-	Now    string
+	Models  []Model
+	Now     string
+	Version string
 }
 
 var swaggerTypeToTypescriptType = map[string]string{
@@ -147,8 +149,9 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 	}
 
 	typesPlaceholder := TypesPlaceholder{
-		Models: models,
-		Now:    now.Format(time.RFC3339),
+		Models:  models,
+		Now:     now.Format(time.RFC3339),
+		Version: config.Version,
 	}
 
 	f, err := os.Create(outputPath)

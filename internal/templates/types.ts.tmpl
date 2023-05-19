@@ -1,19 +1,10 @@
-<% define "types" %>// Generated on <% .Now %> using docgen
-<% range .Models %>
-<% $type := .Type %>
-<% if .IsEnum %>
-export enum <% .Name %> {
-<% range .Values %>
-  <% . %> = <% if eq $type "string" %>"<% end %><% . | raw %><% if eq $type "string" %>"<% end %>,
-<% end %>
+<% define "types" %>// Generated on <% .Now | raw %> using swag-ts v<% .Version | raw %>
+<% range .Models %><% $type := .Type %><% if .IsEnum %>
+export enum <% .Name %> {<% range .Values %>
+  <% . %> = <% if eq $type "string" %>"<% end %><% . | raw %><% if eq $type "string" %>"<% end %>,<% end %>
 }
 <% else %>
-export interface <% .Name %> {
-<% range .Fields %>
-  <% .Name %><% if .Optional %>?<% end %>: <% .Type %><% if .Nullable %> | null<% end %>;
-<% end %>
+export interface <% .Name %> {<% range .Fields %>
+  <% .Name %><% if .Optional %>?<% end %>: <% .Type %><% if .Nullable %> | null<% end %>;<% end %>
 }
-<% end %>
-
-<% end %>
-<% end %>
+<% end %><% end %><% end %>
