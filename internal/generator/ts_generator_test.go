@@ -35,9 +35,4 @@ export interface LoginResponseWrapper {
 	if !strings.Contains(string(data), expected) {
 		t.Errorf("Expected testtypes.ts to be:\n%s\n\nGot:\n%s", expected, string(data))
 	}
-
-	err = os.Remove("../../tmp/testtypes.ts")
-	if err != nil {
-		t.Fatalf("Expected testtypes.ts to be removed, got error: %s", err)
-	}
 }
