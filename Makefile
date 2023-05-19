@@ -1,5 +1,8 @@
 all: pre_clean darwin linux linux-arm windows
 
+test:
+	go test -covermode=atomic -coverprofile=coverage.out ./...
+
 pre_clean:
 	rm -rf .bin
 

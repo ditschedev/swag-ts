@@ -1,5 +1,8 @@
 # swag-ts
 
+[![](https://img.shields.io/github/actions/workflow/status/ditschedev/swag-ts/test.yml?branch=main&longCache=true&label=Test&logo=github%20actions&logoColor=fff)](https://github.com/ditschedev/swag-ts/actions?query=workflow%3ATest)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ditschedev/swag-ts)](https://goreportcard.com/report/github.com/ditschedev/swag-ts)
+
 Simply provide a OpenAPI Specification and swag-ts will generate typescript types for you. You can provide json or yaml definitions on your local filesystem or a remote url.
 
 ## Installation

@@ -1,7 +1,9 @@
-package parser
+package generator
 
 import (
+	"fmt"
 	"github.com/ditschedev/swag-ts/internal/templates"
+	"github.com/fatih/color"
 	"github.com/getkin/kin-openapi/openapi3"
 	"html/template"
 	"log"
@@ -9,6 +11,29 @@ import (
 	"strings"
 	"time"
 )
+
+func (g *generator) generateTypescriptTypes() error {
+	color.Set(color.FgHiBlack)
+	g.s.Suffix = " Generating types page"
+	g.s.Start()
+
+	err := generateTypes(g.doc, g.outputPath)
+	g.s.Stop()
+
+	if err != nil {
+		return fmt.Errorf("failed to generate types: %s", err)
+	}
+
+	color.Set(color.FgGreen)
+	fmt.Printf("✓ Generated typescript types\n")
+	color.Unset()
+
+	color.Set(color.FgHiBlack)
+	fmt.Printf("✓ Finished generation in %s \n", time.Since(g.start).Round(time.Microsecond))
+	color.Unset()
+
+	return nil
+}
 
 type Field struct {
 	Name     string
@@ -38,7 +63,7 @@ var swaggerTypeToTypescriptType = map[string]string{
 	"object":  "any",
 }
 
-func generateTypes(doc *openapi3.T, outputPath string) {
+func generateTypes(doc *openapi3.T, outputPath string) error {
 	now := time.Now()
 
 	var models []Model
@@ -134,7 +159,7 @@ func generateTypes(doc *openapi3.T, outputPath string) {
 
 	f, err := os.Create(outputPath)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	funcMap := template.FuncMap{
@@ -146,13 +171,15 @@ func generateTypes(doc *openapi3.T, outputPath string) {
 	tmpl, err := template.New("types").Delims("<%", "%>").Funcs(funcMap).ParseFS(templates.FS, "types.ts.tmpl")
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	err = tmpl.ExecuteTemplate(f, "types", typesPlaceholder)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func parseRefName(input string) string {
