@@ -5,6 +5,12 @@
 
 Simply provide a OpenAPI Specification and swag-ts will generate typescript types for you. You can provide json or yaml definitions on your local filesystem or a remote url.
 
+## Motivation
+Why another type generator for OpenAPI (Swagger)? Well it's because I could not find a generator that only generates typescript types. 
+Most generators also generate runtime code which I don't necessarily need. I just want to have the typescript types to use them in my frontend application.
+
+If thats something for you, feel free to use it. If you need more functionality, feel free to open an issue or a pull request.
+
 ## Installation
 
 ```bash
@@ -62,5 +68,36 @@ export interface LoginResponse {
 export interface LoginResponseWrapper {
   data: LoginResponse;
   message?: string | null;
+}
+```
+
+### Enums
+Enums are converted to typescript enums. See the example below:
+```yaml
+Car:
+  required:
+    - manufacturer
+  type: object
+  properties:
+    manufacturer:
+      $ref: "#/components/schemas/CarManufacturer"
+CarManufacturer:
+  type: string
+  enum:
+    - BMW
+    - Mercedes
+    - Audi  
+```
+
+will be converted to the following typescript definitions:
+```typescript
+export interface Car {
+    manufacturer: CarManufacturer;
+}
+
+export enum CarManufacturer {
+    BMW = "BMW",
+    Mercedes = "Mercedes",
+    Audi = "Audi",
 }
 ```
