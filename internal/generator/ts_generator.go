@@ -63,8 +63,7 @@ var swaggerTypeToTypescriptType = map[string]string{
 	"boolean": "boolean",
 	"array":   "any[]",
 	"object":  "any",
-	"double":  "number",
-	"decimal": "number",
+	"number":  "number",
 }
 
 func generateTypes(doc *openapi3.T, outputPath string) error {
