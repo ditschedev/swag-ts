@@ -1,0 +1,52 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Swagger Test",
+    "description": "# Test",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+
+  },
+  "components": {
+    "schemas": {
+      "NumberTypes": {
+        "type": "object",
+        "required": [
+          "doubleNum"
+        ],
+        "properties": {
+          "doubleNum": {
+            "type": "number",
+            "format": "double"
+          },
+          "floatNum": {
+            "type": "number",
+            "format": "float"
+          },
+          "anyNum": {
+            "type": "number"
+          },
+          "intNum": {
+            "type": "integer"
+          },
+          "int32Num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "int64Num": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}
