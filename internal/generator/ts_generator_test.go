@@ -24,6 +24,11 @@ func TestTSGeneration(t *testing.T) {
 	}
 
 	expected := `
+export interface DynamicPayload {
+  data: any;
+  info?: any | null;
+}
+
 export interface LoginResponse {
   token: string;
 }

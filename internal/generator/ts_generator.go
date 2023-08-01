@@ -7,7 +7,6 @@ import (
 	"github.com/fatih/color"
 	"github.com/getkin/kin-openapi/openapi3"
 	"html/template"
-	"log"
 	"os"
 	"sort"
 	"time"
@@ -74,15 +73,21 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 	for name, ref := range doc.Components.Schemas {
 		schema := ref.Value
 
-		if schema == nil || (schema.Type != "object" && schema.Enum == nil) {
+		if schema == nil {
 
-			log.Printf("Schema %s is not an object or enum, skipping...\n", name)
+			fmt.Printf("Schema %s is not an object or enum, skipping...\n", name)
 			continue
+		}
+
+		typeString := schema.Type
+
+		if typeString == "" {
+			typeString = "object"
 		}
 
 		model := Model{
 			Name:   name,
-			Type:   schema.Type,
+			Type:   typeString,
 			IsEnum: false,
 			Fields: make([]Field, 0),
 		}
@@ -116,16 +121,28 @@ func generateTypes(doc *openapi3.T, outputPath string) error {
 					f.Type = swaggerTypeToTypescriptType[field.Value.Items.Value.Type] + "[]"
 				}
 			case "object":
+				fieldType := "any"
+
+				if field.Ref != "" {
+					fieldType = parseRefName(field.Ref)
+				}
+
 				f = Field{
 					Name:     fieldName,
-					Type:     parseRefName(field.Ref),
+					Type:     fieldType,
 					Nullable: field.Value.Nullable,
 					Optional: true,
 				}
 			default:
+				fieldType := field.Value.Type
+
+				if fieldType == "" {
+					fieldType = "object"
+				}
+
 				f = Field{
 					Name:     fieldName,
-					Type:     swaggerTypeToTypescriptType[field.Value.Type],
+					Type:     swaggerTypeToTypescriptType[fieldType],
 					Nullable: field.Value.Nullable,
 					Optional: true,
 				}
