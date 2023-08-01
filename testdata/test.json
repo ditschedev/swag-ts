@@ -15,6 +15,20 @@
   },
   "components": {
     "schemas": {
+      "DynamicPayload": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+            "data": {
+              "type": "object"
+            },
+          "info": {
+            "nullable": true
+          }
+        }
+      },
       "LoginResponse": {
         "type": "object",
         "required": [
