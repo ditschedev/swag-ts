@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: 'Qodana Scan'
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v4
         with:
@@ -37,7 +37,7 @@ jobs:
           check-latest: true
           cache: true
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: golangci/golangci-lint-action@v3.6.0
         with:
@@ -61,7 +61,7 @@ jobs:
     runs-on: ${{ matrix.platform }}-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v4
         with:
@@ -92,7 +92,7 @@ jobs:
             unzip
             mingw-w64-x86_64-go
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/cache@v3
         with:
