@@ -7,4 +7,23 @@ export enum <% .Name %> {<% range .Values %>
 export interface <% .Name %> {<% range .Fields %>
   <% .Name %><% if .Optional %>?<% end %>: <% .Type %><% if .Nullable %> | null<% end %>;<% end %>
 }
-<% end %><% end %><% end %>
+<% end %><% end %>
+function buildFormData(formData: FormData, data: any, parentKey?: string) {
+  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
+    Object.keys(data).forEach(key => {
+      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    const value = data == null ? '' : data;
+
+    formData.append(parentKey, value);
+  }
+}
+
+export function convertToFormData<T extends object>(data: T) {
+  const formData = new FormData();
+
+  buildFormData(formData, data);
+
+  return formData;
+}<% end %>
