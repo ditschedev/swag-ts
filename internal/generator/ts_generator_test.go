@@ -29,6 +29,12 @@ export interface DynamicPayload {
   info?: any | null;
 }
 
+export interface LoginFormData {
+  certificate: Blob;
+  email: string;
+  password: string;
+}
+
 export interface LoginResponse {
   token: string;
 }

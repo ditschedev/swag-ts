@@ -11,7 +11,100 @@
     }
   ],
   "paths": {
-
+    "/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": " (Auth)",
+        "operationId": "Login",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "email",
+                  "password",
+                  "certificate"
+                ],
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "maxLength": 150,
+                    "type": "string"
+                  },
+                  "password": {
+                    "maxLength": 253,
+                    "type": "string"
+                  },
+                  "certificate": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "bezeichnung": {
+                  "style": "form"
+                },
+                "frontendBrandColor": {
+                  "style": "form"
+                },
+                "mailLogoUrl": {
+                  "style": "form"
+                },
+                "mailHost": {
+                  "style": "form"
+                },
+                "mailPort": {
+                  "style": "form"
+                },
+                "mailReplyTo": {
+                  "style": "form"
+                },
+                "mailFrom": {
+                  "style": "form"
+                },
+                "mailFromName": {
+                  "style": "form"
+                },
+                "mailHTMLSignature": {
+                  "style": "form"
+                },
+                "mailUser": {
+                  "style": "form"
+                },
+                "mailPassword": {
+                  "style": "form"
+                },
+                "logo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              },
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "ADMIN"
+            ]
+          }
+        ]
+      }
+    }
   },
   "components": {
     "schemas": {
