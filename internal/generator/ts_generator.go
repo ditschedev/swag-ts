@@ -229,7 +229,7 @@ func parseSchema(name string, schema *openapi3.Schema) Model {
 			}
 
 			if field.Value.Format == "binary" {
-				f.Type = "Blob"
+				f.Type = "string | Blob | File"
 			}
 
 		}

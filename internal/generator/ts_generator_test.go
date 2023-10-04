@@ -30,7 +30,7 @@ export interface DynamicPayload {
 }
 
 export interface LoginFormData {
-  certificate: Blob;
+  certificate: string | Blob | File;
   email: string;
   password: string;
 }
