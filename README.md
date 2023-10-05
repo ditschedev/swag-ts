@@ -101,9 +101,3 @@ export enum CarManufacturer {
     Audi = "Audi",
 }
 ```
-
-### FormData Requests
-If you have a request with `multipart/form-data` content type the cli will generate a type definition as well.
-As for most OpenAPI Specs the schema of the form data will not be added to the `schemas` section of the definition itself, rather than in the `requestBody` section of the `path`.
-
-The generated type will be named after the operation id with a suffix of `FormData`. For converting this type to a `FormData` object you can use the `convertToFormData` function from the generated file.
